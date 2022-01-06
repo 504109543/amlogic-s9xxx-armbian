@@ -8,11 +8,11 @@
 #=========================================================================
 
 # Set font color
-blue_font_prefix="\033[34m"
-purple_font_prefix="\033[35m"
-green_font_prefix="\033[32m"
-yellow_font_prefix="\033[33m"
-red_font_prefix="\033[31m"
+blue_font_prefix="\033[94m"
+purple_font_prefix="\033[95m"
+green_font_prefix="\033[92m"
+yellow_font_prefix="\033[93m"
+red_font_prefix="\033[91m"
 font_color_suffix="\033[0m"
 INFO="[${blue_font_prefix}INFO${font_color_suffix}]"
 STEPS="[${purple_font_prefix}STEPS${font_color_suffix}]"
@@ -28,16 +28,16 @@ sudo apt-get remove -y docker docker-engine docker.io containerd runc
 sudo apt-get install -y apt-transport-https ca-certificates curl gnupg-agent software-properties-common
 
 # Install GPG certificate
-# sudo curl -fsSL https://download.docker.com/linux/debian/gpg | apt-key add -
-sudo curl -fsSL https://mirrors.aliyun.com/docker-ce/linux/debian/gpg | apt-key add -
+# sudo curl -fsSL https://download.docker.com/linux/ubuntu/gpg | apt-key add -
+sudo curl -fsSL https://mirrors.aliyun.com/docker-ce/linux/ubuntu/gpg | apt-key add -
 
 # Add software source information
-# sudo add-apt-repository "deb [arch=arm64,armhf] https://download.docker.com/linux/debian $(lsb_release -cs) stable"
-sudo add-apt-repository "deb [arch=arm64,armhf] https://mirrors.aliyun.com/docker-ce/linux/debian $(lsb_release -cs) stable"
+# sudo add-apt-repository "deb [arch=arm64,armhf] https://download.docker.com/linux/ubuntu $(lsb_release -cs) stable"
+sudo add-apt-repository "deb [arch=arm64,armhf] https://mirrors.aliyun.com/docker-ce/linux/ubuntu $(lsb_release -cs) stable"
 
 echo -e "${STEPS} Install docker related packages ... "
 sudo apt-get update
-sudo apt-get install -y docker-ce docker-ce-cli containerd.io
+sudo apt-get install -y docker-ce docker-ce-cli containerd.io docker-compose
 
 echo -e "${STEPS} Install docker accelerator ... "
 sudo cat >/etc/docker/daemon.json <<EOF
@@ -50,7 +50,6 @@ sudo cat >/etc/docker/daemon.json <<EOF
      "max-size": "10m",
      "max-file": "5"
    },
-  "iptables": true,
   "registry-mirrors": [
      "https://docker.mirrors.ustc.edu.cn",
      "https://registry.cn-shanghai.aliyuncs.com",
@@ -80,6 +79,7 @@ portainer_domain() {
     echo -e "${STEPS} Select Install Portainer (Have SSL certificate, install domain name certificate https access)... "
     sudo docker volume create portainer_data
     sudo docker run -d -p 9000:9000 --name portainer --restart always --name=portainer --label owner=portainer -v /var/run/docker.sock:/var/run/docker.sock -v /etc/ssl:/certs -v portainer_data:/data portainer/portainer:linux-arm64 --ssl --sslcert /certs/portainer.crt --sslkey /certs/portainer.key
+    echo -e "${INFO} Please rename and upload the domain certificate [ portainer.crt & portainer.key ] to the [ /etc/ssl/ ] directory."
     echo -e "${SUCCESS} The portainer address [ https://domain:9000 ]"
 }
 
