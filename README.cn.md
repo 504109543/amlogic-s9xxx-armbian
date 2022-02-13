@@ -12,12 +12,12 @@
 | ---- | ---- | ---- | ---- |
 | s922x | [Beelink-GT-King](https://tokopedia.link/RAgZmOM41db), [Beelink-GT-King-Pro](https://www.gearbest.com/tv-box/pp_3008857542462482.html), [Ugoos-AM6-Plus](https://tokopedia.link/pHGKXuV41db), [ODROID-N2](https://www.tokopedia.com/search?st=product&q=ODROID-N2) | 全部 | armbian_aml_s922x_*.img |
 | s905x3 | [X96-Max+](https://tokopedia.link/uMaH09s41db), [HK1-Box](https://tokopedia.link/xhWeQgTuwfb), [H96-Max-X3](https://tokopedia.link/KuWvwoYuwfb), [Ugoos-X3](https://tokopedia.link/duoIXZpdGgb), [X96-Air](https://www.gearbest.com/tv-box/pp_3002885621272175.html), [A95XF3-Air](https://tokopedia.link/ByBL45jdGgb) | 全部 | armbian_aml_s905x3_*.img |
-| s905x2 | [X96Max-4G](https://tokopedia.link/HcfLaRzjqeb), [X96Max-2G](https://tokopedia.link/HcfLaRzjqeb) | 全部 | armbian_aml_s905x2_*.img |
-| s912 | [H96-Pro-Plus](https://www.gearbest.com/tv-box-mini-pc/pp_503486.html), [T95Z-Plus](https://www.tokopedia.com/search?st=product&q=t95z%20plus), Octopus-Planet | 全部 | armbian_aml_s912_*.img |
+| s905x2 | [X96Max-4G](https://tokopedia.link/HcfLaRzjqeb), [X96Max-2G](https://tokopedia.link/HcfLaRzjqeb), [MECOOL-KM3-4G](https://www.gearbest.com/tv-box/pp_3008133484979616.html) | 全部 | armbian_aml_s905x2_*.img |
+| s912 | [H96-Pro-Plus](https://www.gearbest.com/tv-box-mini-pc/pp_503486.html), [Tanix-TX92](http://www.tanix-box.com/project-view/tanix-tx92-android-tv-box-powered-amlogic-s912/), [VORKE-Z6-Plus](http://www.vorke.com/project/vorke-z6-2/), [T95Z-Plus](https://www.tokopedia.com/search?st=product&q=t95z%20plus), Octopus-Planet | 全部 | armbian_aml_s912_*.img |
 | s905d | [MECOOL-KI-Pro](https://www.gearbest.com/tv-box-mini-pc/pp_629409.html), Phicomm-N1 | 全部 | armbian_aml_s905d_*.img |
-| s905x | [HG680P](https://tokopedia.link/HbrIbqQcGgb), [B860H](https://www.zte.com.cn/global/products/cocloud/201707261551/IP-STB/ZXV10-B860H) | 全部 | armbian_aml_s905x_*.img |
+| s905x | [HG680P](https://tokopedia.link/HbrIbqQcGgb), [B860H](https://www.zte.com.cn/global/products/cocloud/201707261551/IP-STB/ZXV10-B860H), [TBee-Box](https://www.tbee.com/product/tbee-box/) | 全部 | armbian_aml_s905x_*.img |
 | s905w | [X96-Mini](https://tokopedia.link/ro207Hsjqeb), [TX3-Mini](https://www.gearbest.com/tv-box/pp_009748238474.html) | 5.4.* | armbian_aml_s905w_*.img |
-| s905 | [Beelink-Mini-MX-2G](https://www.gearbest.com/tv-box-mini-pc/pp_321409.html), [MXQ-PRO+4K](https://www.gearbest.com/tv-box-mini-pc/pp_354313.html) | 全部 | armbian_aml_s905_*.img |
+| s905 | [Beelink-Mini-MX-2G](https://www.gearbest.com/tv-box-mini-pc/pp_321409.html), [MXQ-Pro+4K](https://www.gearbest.com/tv-box-mini-pc/pp_354313.html) | 全部 | armbian_aml_s905_*.img |
 
 💡提示：当前 ***`s905`*** 的盒子只能在 `TF/SD/USB` 中使用，其他型号的盒子同时支持写入 `EMMC` 中使用。当前 ***`s905w`*** 系列的盒子只支持使用 `5.4` 内核，不能使用 5.10 或更高版本，其他型号的盒子可任选内核版本使用。每个盒子的 dtb 和 u-boot 请查阅[说明](build-armbian/amlogic-u-boot/README.md)。
 
@@ -33,18 +33,20 @@
 armbian-install
 ```
 
+默认将安装主线 u-boot，以便支持 5.10 及以上内核的使用。如果选择不安装，请在第 `1` 个输入参数中指定，如 `armbian-install no`
+
 - ### 更新 Armbian 内核
 
-查询 [可选内核](https://github.com/ophub/kernel/tree/main/pub/stable) 版本，登录 Armbian 系统 → 输入命令：
+登录 Armbian 系统 → 输入命令：
 
 ```yaml
-# 使用 root 用户运行 (sudo -i), 输入命令: armbian-update <内核版本>
-armbian-update 5.4.170
+# 使用 root 用户运行 (sudo -i)
+armbian-update
 ```
 
-如果当前目录下有成套的内核文件，可以运行 `armbian-update` 命令安装此内核。内核更新脚本会在开发中不断更新，可使用此命令同步更新本地的脚本：`wget -O /usr/sbin/armbian-update git.io/armbian-update` 。或者直接使用服务器端最新脚本进行内核更新：`bash <(curl -fsSL git.io/armbian-update) 5.4.170`
+如果当前目录下有成套的内核文件，将使用当前目录的内核进行更新。如果当前目录没有内核文件，将从服务器查询并下载同系列的最新内核进行更新。你也可以查询[可选内核](https://github.com/ophub/kernel/tree/main/pub/stable)版本，进行指定版本更新：`armbian-update 5.4.180`。在设备支持的可选内核里可以自由更新，如从 5.4.180 内核更新为 5.10.100 内核。内核更新脚本会在开发中不断更新，可使用此命令同步更新本地的脚本：`wget -O /usr/sbin/armbian-update git.io/armbian-update` 。或者直接使用服务器端最新脚本进行内核更新：`bash <(curl -fsSL git.io/armbian-update) 5.4.180`
 
-内核更新时，默认从 [stable](https://github.com/ophub/kernel/tree/main/pub/stable) 内核版本分支下载，如果下载其他 [版本分支](https://github.com/ophub/kernel/tree/main/pub) 的内核，请在第 `2` 个参数中根据分支文件夹名称指定，如 `armbian-update 5.7.19 dev` 。默认自动安装主线 u-boot，可以更好的支持 5.10 及以上内核系列的使用。如果选择不安装，请在第 `3` 个输入参数中指定，如 `armbian-update 5.4.170 stable no`
+内核更新时，默认从 [stable](https://github.com/ophub/kernel/tree/main/pub/stable) 内核版本分支下载，如果下载其他 [版本分支](https://github.com/ophub/kernel/tree/main/pub) 的内核，请在第 `2` 个参数中根据分支文件夹名称指定，如 `armbian-update 5.7.19 dev` 。默认会自动安装主线 u-boot，这对使用 5.10 以上版本的内核有更好的支持，如果选择不安装，请在第 `3` 个输入参数中指定，如 `armbian-update 5.4.180 stable no`
 
 内核中的 `headers` 文件默认安装在 `/use/local/include` 目录下。在编译应用程序的时候，在 `GCC` 的 `CFLAG` 参数中添加 `-I /usr/local/include` 即可找到头文件。
 
@@ -76,9 +78,9 @@ armbian-config
 armbian-swap 1
 ```
 
-- ### 在 TF/USB 中使用 Armbian
+- ### 在 TF/SD/USB 中使用 Armbian
 
-激活 TF/USB 的剩余空间，请登录 Armbian 系统 → 输入命令：
+激活 TF/SD/USB 的剩余空间，请登录 Armbian 系统 → 输入命令：
 
 ```yaml
 armbian-tf
@@ -92,7 +94,7 @@ armbian-tf
 #### 查看 [操作截图](https://user-images.githubusercontent.com/68696949/137860992-fbd4e2fa-e90c-4bbb-8985-7f5db9f49927.jpg)
 
 ```yaml
-# 1. 根据空间大小确认 TF/USB 的名称，TF卡为 [ mmcblk ]，USB 为[ sd ]
+# 1. 根据空间大小确认 TF/SD/USB 的名称，TF/SD 为 [ mmcblk ]，USB 为[ sd ]
 在命令行中: 输入 [ fdisk -l | grep "sd" ] 查看卡的名称
 
 # 2. 获取剩余空间的起始值，复制并保存，下面使用（例如：5382144）
@@ -134,31 +136,31 @@ armbian-tf
 请从 `TF/SD/USB` 启动 Armbian 系统 → 输入命令：
 
 ```yaml
-ddbr
+armbian-ddbr
 ```
 
 根据提示输入 `b` 进行系统备份，输入 `r` 进行系统恢复。
 
 ## 打包命令的相关参数说明
 
-| 参数 | 含义 | 说明 |
-| ---- | ---- | ---- |
-| -d | Defaults | 使用默认配置 |
-| -b | Build | 指定电视盒子型号，如 `-b s905x3` . 多个型号使用 `_` 进行连接，如 `-b s905x3_s905d` . 可以指定的型号有: `s905x3`, `s905x2`, `s905x`, `s905w`, `s905d`, `s905d-ki`, `s905`, `s922x`, `s922x-n2`, `s912`, `s912-t95z` 。说明：`s922x-n2` 是 `s922x-odroid-n2` ，`s912-t95z` 是 `s912-t95z-plus` ，`s905d-ki` 是 `mecool-ki-pro` |
-| -v | Version | 指定内核 [版本分支](https://github.com/ophub/kernel/tree/main/pub) 名称，如 `-v stable` 。指定的名称须与分支目录名称相同。默认使用 `stable` 分支版本。 |
-| -k | Kernel | 指定 [kernel](https://github.com/ophub/kernel/tree/main/pub/stable) 名称，如 `-k 5.4.170` . 多个内核使用 `_` 进行连接，如 `-k 5.10.90_5.4.170` |
-| -a | AutoKernel | 设置是否自动采用同系列最新版本内核。当为 `true` 时，将自动在内核库中查找在 `-k` 中指定的内核如 5.4.170 的 5.4 同系列是否有更新的版本，如有 5.4.170 之后的最新版本时，将自动更换为最新版。设置为 `false` 时将编译指定版本内核。默认值：`true` |
-| -s | Size | 对固件的 ROOTFS 分区大小进行设置，默认大小为 2748M, 固件大小必须大于 2000M. 例如： `-s 2748` |
+| 参数  | 含义       | 说明        |
+| ---- | ---------- | ---------- |
+| -d   | Defaults   | 使用默认配置 |
+| -b   | BuildSoC   | 指定电视盒子型号，如 `-b s905x3` . 多个型号使用 `_` 进行连接，如 `-b s905x3_s905d` . 可以指定的型号有: `s905x3`, `s905x2`, `s905x`, `s905w`, `s905d`, `s905d-ki`, `s905`, `s922x`, `s922x-n2`, `s912`, `s912-t95z` 。说明：`s922x-reva` 是 `s922x-gtking-pro-rev_a`，`s922x-n2` 是 `s922x-odroid-n2` ，`s912-t95z` 是 `s912-t95z-plus` ，`s905d-ki` 是 `s912-mecool-ki-pro`，`s905x2-km3` 是 `s905x2-mecool-km3` |
+| -v   | Version    | 指定内核 [版本分支](https://github.com/ophub/kernel/tree/main/pub) 名称，如 `-v stable` 。指定的名称须与分支目录名称相同。默认使用 `stable` 分支版本。 |
+| -k   | Kernel     | 指定 [kernel](https://github.com/ophub/kernel/tree/main/pub/stable) 名称，如 `-k 5.4.180` . 多个内核使用 `_` 进行连接，如 `-k 5.10.100_5.4.180` |
+| -a   | AutoKernel | 设置是否自动采用同系列最新版本内核。当为 `true` 时，将自动在内核库中查找在 `-k` 中指定的内核如 5.4.180 的 5.4 同系列是否有更新的版本，如有 5.4.180 之后的最新版本时，将自动更换为最新版。设置为 `false` 时将编译指定版本内核。默认值：`true` |
+| -s   | Size       | 对固件的 ROOTFS 分区大小进行设置，默认大小为 2748M, 固件大小必须大于 2000M. 例如： `-s 2748` |
 
-- `sudo ./rebuild -d -b s905x3 -k 5.4.170` : 推荐使用. 使用默认配置进行相关内核打包。
-- `sudo ./rebuild -d -b s905x3_s905d -k 5.10.90_5.4.170` : 使用默认配置，进行多个内核同时打包。使用 `_` 进行多内核参数连接。
 - `sudo ./rebuild -d` : 使用默认配置，对全部型号的电视盒子进行打包。
-- `sudo ./rebuild -d -b s905x3 -k 5.4.170 -s 2748` : 使用默认配置，指定一个内核，一个型号进行打包，固件大小设定为2748M。
+- `sudo ./rebuild -d -b s905x3 -k 5.4.180` : 推荐使用. 使用默认配置进行相关内核打包。
+- `sudo ./rebuild -d -b s905x3_s905d -k 5.10.100_5.4.180` : 使用默认配置，进行多个内核同时打包。使用 `_` 进行多内核参数连接。
+- `sudo ./rebuild -d -b s905x3 -k 5.4.180 -s 2748` : 使用默认配置，指定一个内核，一个型号进行打包，固件大小设定为2748M。
 - `sudo ./rebuild -d -b s905x3 -v dev -k 5.7.19` : 使用默认配置，指定型号，指定版本分支，指定内核进行打包。
 - `sudo ./rebuild -d -b s905x3_s905d`  使用默认配置，对多个型号的电视盒子进行全部内核打包, 使用 `_` 进行多型号连接。
-- `sudo ./rebuild -d -k 5.10.90_5.4.170` : 使用默认配置，指定多个内核，进行全部型号电视盒子进行打包, 内核包使用 `_` 进行连接。
-- `sudo ./rebuild -d -k 5.10.90_5.4.170 -a true` : 使用默认配置，指定多个内核，进行全部型号电视盒子进行打包, 内核包使用 `_` 进行连接。自动升级到同系列最新内核。
-- `sudo ./rebuild -d -s 2748 -k 5.4.170` : 使用默认配置，设置固件大小为 2748M, 并指定内核为 5.4.170 ，对全部型号电视盒子进行打包。
+- `sudo ./rebuild -d -k 5.10.100_5.4.180` : 使用默认配置，指定多个内核，进行全部型号电视盒子进行打包, 内核包使用 `_` 进行连接。
+- `sudo ./rebuild -d -k 5.10.100_5.4.180 -a true` : 使用默认配置，指定多个内核，进行全部型号电视盒子进行打包, 内核包使用 `_` 进行连接。自动升级到同系列最新内核。
+- `sudo ./rebuild -d -s 2748 -k 5.4.180` : 使用默认配置，设置固件大小为 2748M, 并指定内核为 5.4.180 ，对全部型号电视盒子进行打包。
 
 - ### 本地化打包
 
@@ -172,9 +174,11 @@ sudo apt-get install -y $(curl -fsSL git.io/ubuntu-2004-server)
 
 2. 克隆仓库到本地 `git clone --depth 1 https://github.com/ophub/amlogic-s9xxx-armbian.git`
 
-3. 在根目录下创建文件夹 `build/output/images` ，并上传 Armbian 镜像文件 ( 如：`Armbian_21.11.0-trunk_Lepotato_current_5.10.90.img` ) 到 `~/amlogic-s9xxx-armbian/build/output/images` 目录里。原版 Armbian 镜像文件名称中的发行版本号（如：`21.11.0`）和内核版本号（如：`5.10.90`）请保留，它将在重构后用作 Armbian 固件的名称。
+3. 在根目录下创建文件夹 `build/output/images` ，并上传 Armbian 镜像文件 ( 如：`Armbian_21.11.0-trunk_Lepotato_current_5.10.100.img` ) 到 `~/amlogic-s9xxx-armbian/build/output/images` 目录里。原版 Armbian 镜像文件名称中的发行版本号（如：`21.11.0`）和内核版本号（如：`5.10.100`）请保留，它将在重构后用作 Armbian 固件的名称。
 
-4. 进入 `~/amlogic-s9xxx-armbian` 根目录，然后运行 `sudo ./rebuild -d -b s905x3 -k 5.4.170` 命令即可生成指定 soc 的 Armbian 镜像文件。生成的文件保存在 `build/output/images` 目录里。
+4. 在 `~/amlogic-s9xxx-armbian/build-armbian/amlogic-kernel` 目录下创建版本号对应的文件夹，如 `5.4.180` ，并将内核文件放入此目录。使用方法见 [build-armbian/amlogic-kernel/README.md](build-armbian/amlogic-kernel/README.md)
+
+5. 进入 `~/amlogic-s9xxx-armbian` 根目录，然后运行 `sudo ./rebuild -d -b s905x3 -k 5.4.180` 命令即可生成指定 soc 的 Armbian 镜像文件。生成的文件保存在 `build/output/images` 目录里。
 
 - ### 使用 GitHub Action 进行编译
 
@@ -189,44 +193,63 @@ sudo apt-get install -y $(curl -fsSL git.io/ubuntu-2004-server)
 你可以使用其他方式构建 Armbian 固件。或者使用 [Armbian](https://armbian.tnahosting.net/dl/) 官方提供的 [lepotato](https://armbian.tnahosting.net/dl/lepotato/archive/) 等分支的固件，仅在流程控制文件 [.yml](.github/workflows/rebuild-armbian.yml) 中引入本仓库的脚本进行 Armbian 重构，适配 Amlogic S9xxx 系列盒子的使用。在 [Action](https://github.com/ophub/amlogic-s9xxx-armbian/actions) 页面里选择 ***`Rebuild armbian`*** ，输入 Armbian 的网络下载地址如 `https://dl.armbian.com/*/Armbian_*.img.xz` ，或者在流程控制文件 [.yml](.github/workflows/rebuild-armbian.yml) 中通过 `armbian_path` 参数设定重构文件的加载路径。代码如下:
 
 ```yaml
-- name: Rebuild Armbian for Amlogic s9xxx
+- name: Rebuild the Armbian for Amlogic s9xxx
   uses: ophub/amlogic-s9xxx-armbian@main
   with:
+    build_target: armbian
     armbian_path: build/output/images/*.img
     armbian_soc: s905d_s905x3_s922x_s905x
-    armbian_kernel: 5.10.90_5.4.170
+    armbian_kernel: 5.10.100_5.4.180
 ```
 
 - GitHub Action 输入参数说明
 
-| 参数                   | 默认值                  | 说明                                            |
-|------------------------|------------------------|------------------------------------------------|
-| armbian_path         | no                     | 设置原版 Armbian 文件的路径，支持使用当前工作流中的文件路径如 `build/output/images/*.img` ，也支持使用网络下载地址如： `https://dl.armbian.com/*/Armbian_*.img.xz` |
-| armbian_soc        | s905d_s905x3           | 设置打包盒子的 `SOC` ，可指定单个盒子如 `s905x3` ，可选择多个盒子用_连接如 `s905x3_s905d` 。各盒子的SoC代码为：`s905x3`, `s905x2`, `s905x`, `s905w`, `s905d`, `s905d-ki`, `s905`, `s922x`, `s922x-n2`, `s912`, `s912-t95z` 。说明：`s922x-n2` 是 `s922x-odroid-n2` ，`s912-t95z` 是 `s912-t95z-plus` ，`s905d-ki` 是 `mecool-ki-pro` |
-| version_branch         | stable                 | 指定内核 [版本分支](https://github.com/ophub/kernel/tree/main/pub) 名称，如 `stable` 。指定的名称须与分支目录名称相同。默认使用 `stable` 分支版本。 |
-| armbian_kernel         | 5.10.90_5.4.170        | 设置内核版本，[kernel](https://github.com/ophub/kernel/tree/main/pub/stable) 库里收藏了众多 Flippy 的原版内核，可以查看并选择指定。 |
-| auto_kernel            | true                   | 设置是否自动采用同系列最新版本内核。当为 `true` 时，将自动在内核库中查找在 `amlogic_kernel` 中指定的内核如 5.4.170 的 5.4 同系列是否有更新的版本，如有 5.4.170 之后的最新版本时，将自动更换为最新版。设置为 `false` 时将编译指定版本内核。默认值：`true` |
-| armbian_size           | 2748                   | 设置固件 ROOTFS 分区的大小，必须大于 2000。                         |
+相关参数与`本地打包命令`相对应，请参考上面的说明。
+
+| 参数              | 默认值             | 说明                                            |
+|------------------|-------------------|------------------------------------------------|
+| armbian_path     | no                | 设置原版 Armbian 文件的路径，支持使用当前工作流中的文件路径如 `build/output/images/*.img` ，也支持使用网络下载地址如： `https://dl.armbian.com/*/Armbian_*.img.xz` |
+| armbian_soc      | s905d_s905x3      | 设置打包盒子的 `SOC` ，功能参考 `-b`                |
+| version_branch   | stable            | 指定内核 [版本分支](https://github.com/ophub/kernel/tree/main/pub) 名称，功能参考 `-v` |
+| armbian_kernel   | 5.10.100_5.4.180  | 设置内核 [版本](https://github.com/ophub/kernel/tree/main/pub/stable)，功能参考 `-k` |
+| auto_kernel      | true              | 设置是否自动采用同系列最新版本内核，功能参考 `-a`      |
+| armbian_size     | 2748              | 设置固件 ROOTFS 分区的大小，功能参考 `-s`           |
 
 - GitHub Action 输出变量说明
 
-| 参数                                      | 默认值                  | 说明                       |
-|------------------------------------------|-------------------------|---------------------------|
-| ${{ env.PACKAGED_OUTPUTPATH }}           | ${PWD}/out              | 打包后的固件所在文件夹的路径  |
-| ${{ env.PACKAGED_OUTPUTDATE }}           | 2021.04.13.1058         | 打包日期                   |
-| ${{ env.PACKAGED_STATUS }}               | success / failure       | 打包状态。成功 / 失败       |
+| 参数                                      | 默认值             | 说明                       |
+|------------------------------------------|-------------------|---------------------------|
+| ${{ env.PACKAGED_OUTPUTPATH }}           | out               | 打包后的固件所在文件夹的路径   |
+| ${{ env.PACKAGED_OUTPUTDATE }}           | 2021.04.13.1058   | 打包日期                    |
+| ${{ env.PACKAGED_STATUS }}               | success           | 打包状态：success / failure |
 
 ## 编译自定义内核
 
 自定义内核的编译方法详见 [compile-kernel](compile-kernel/README.cn.md)
 
+```yaml
+- name: Compile the kernel for Amlogic s9xxx
+  uses: ophub/amlogic-s9xxx-armbian@main
+  with:
+    build_target: kernel
+    kernel_version: 5.10.100_5.4.180
+    kernel_auto: true
+    kernel_sign: -meson64-dev
+```
+
 ## Armbian 贡献者名单
 
-首先感谢 [150balbes](https://github.com/150balbes) 为在 Amlogic 盒子中使用 Armbian 所做出的杰出贡献和奠定的良好基础。这里编译的 [armbian](https://github.com/armbian/build) 系统直接使用了官方当前的最新源码进行实时编译。为不同的盒子制作专用的 Armbian 系统时采用了 [flippy](https://github.com/unifreq/openwrt_packit) 为 `amlogic s9xxx openwrt` 制作的内核、脚本及 `u-boot` 等资源。程序的开发思路来自 [ebkso](https://www.kflyo.com/howto-compile-armbian-for-n1-box) 等作者的教程。感谢各位的奉献和分享，让我们可以在 Amlogic s9xxx 盒子里使用 Armbian 系统。
+首先感谢 [150balbes](https://github.com/150balbes) 为在 Amlogic 盒子中使用 Armbian 所做出的杰出贡献和奠定的良好基础。这里编译的 [armbian](https://github.com/armbian/build) 系统直接使用了官方当前的最新源码进行实时编译。为不同的盒子制作专用的 Armbian 系统时采用了 [unifreq](https://github.com/unifreq/openwrt_packit) 为 `amlogic s9xxx openwrt` 制作的内核、脚本及 `u-boot` 等资源。程序的开发思路来自 [ebkso](https://www.kflyo.com/howto-compile-armbian-for-n1-box) 等作者的教程。感谢各位的奉献和分享，让我们可以在 Amlogic s9xxx 盒子里使用 Armbian 系统。
 
-因为有不断的 [创新与贡献者](CONTRIBUTOR.md) ，我们才能在岁月的长河里，拥有盒子的陪伴。很多年后我们都长大了，但这个美好的回忆总会长久地留在记忆深处。从现在开始，把这些开创者们的成果记录起来，留给新加入盒子圈的新朋友们。
+因为有不断的 [创新与贡献者](CONTRIBUTOR.md) ，我们才能在岁月的长河里，拥有盒子的陪伴。很多年后我们都长大了，但这个美好的回忆总会长久地留在记忆深处。从现在开始（2021-09-19创建此源码库），把这些开创者们的成果记录起来，留给新加入盒子圈的新朋友们。
+
+## 鸣谢
+
+- [armbian/build](https://github.com/armbian/build)
+- [unifreq/kernel](https://github.com/unifreq)
+- [kernel.org](https://kernel.org)
 
 ## License
 
-[LICENSE](https://github.com/ophub/amlogic-s9xxx-armbian/blob/main/LICENSE) © OPHUB
+The amlogic-s9xxx-armbian © OPHUB is licensed under [GPL-2.0](https://github.com/ophub/amlogic-s9xxx-armbian/blob/main/LICENSE)
 
